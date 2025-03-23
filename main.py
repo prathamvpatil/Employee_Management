@@ -5,13 +5,13 @@ connection = mysql.connector.connect(
 )
 
 #check employee function
-def check_employee(employee_id):
+def check_employee(id):
     # To select all the employees with matching id from database
-    sql = 'SELECT * FROM employees WHERE employee_id = %s'
+    sql = 'SELECT * FROM employees WHERE id = %s'
 
     # Making cursor buffered so that rowcount method work properly
     cursor = connection.cursor(buffered=True)
-    data = (employee_id,)
+    data = (id,)
 
     #Execute the query
     cursor.execute(sql, data)
@@ -37,7 +37,7 @@ def add_employee():
         Salary = input("Enter Employee Salary: ")
         # Inserting the details into the table
 
-        sqql = 'INSERT INTO employees (id, name, position, salary) VALUES (%s, %s, %s, %s)'
+        sql = 'INSERT INTO employees (id, name, post, salary) VALUES (%s, %s, %s, %s)'
         data = (Id, Name, Post, Salary)
         cursor = connection.cursor()
 
@@ -67,7 +67,7 @@ def remove_employee():
         return
     else:
         # Delete the employee from the table
-        sqql = 'DELETE FROM employees WHERE id = %s'
+        sql = 'DELETE FROM employees WHERE id = %s'
         data = (Id,)
         cursor = connection.cursor()
 
@@ -152,4 +152,36 @@ def display_employee():
     finally:
         #close the cursor
         cursor.close()  
+
+# Menu Function
+def menu():
+    while True:
+        print("\nWelcome to Employee Management Record")
+        print("Press:")
+        print("1 to Add Employee")
+        print("2 to Remove Employee")
+        print("3 to Promote Employee")
+        print("4 to Display Employees")
+        print("5 to Exit")
+        
+        # Taking choice from user
+        ch = input("Enter your Choice: ")
+
+        if ch == '1':
+            add_employee()
+        elif ch == '2':
+            remove_employee()
+        elif ch == '3':
+            promote_employee()
+        elif ch == '4':
+            display_employee()
+        elif ch == '5':
+            print("Exiting the program. Goodbye!")
+            break
+        else:
+            print("Invalid Choice! Please try again.")
+
+# Main function
+if __name__ == "__main__":
+    menu()
             
