@@ -43,7 +43,7 @@ def add_employee():
 
         try:
             # Execute the query
-            cursor.execute(sqql, data)
+            cursor.execute(sql, data)
 
             # Commit the transaction
             connection.commit()
@@ -53,6 +53,35 @@ def add_employee():
             print("Something went wrong: {}".format(err))
             connection.rollback()
         
+        finally:
+            # Close the cursor
+            cursor.close()
+
+# Remove employee function
+def remove_employee():
+    Id = input("Enter the Id: ")
+
+    # Check if employee exists
+    if not check_employee(Id):
+        print("Employee does not exist")
+        return
+    else:
+        # Delete the employee from the table
+        sqql = 'DELETE FROM employees WHERE id = %s'
+        data = (Id,)
+        cursor = connection.cursor()
+
+        try:
+            # Execute the query
+            cursor.execute(sql, data)
+            # Commit transaction
+            connection.commit()
+            print("Employee removed successfully")
+
+        except:
+            print(f"Error: {err}")
+            connection.rollback()
+
         finally:
             # Close the cursor
             cursor.close()
